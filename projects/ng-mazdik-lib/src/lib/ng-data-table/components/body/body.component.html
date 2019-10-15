@@ -1,0 +1,52 @@
+<app-scroller
+  [items]="table.rows"
+  [virtualScroll]="table.settings.virtualScroll"
+  [rowHeight]="table.dimensions.rowHeight"
+  [scrollHeight]="table.dimensions.bodyHeight"
+  [itemsPerRow]="table.pager.perPage"
+  [rowHeightProp]="table.settings.rowHeightProp"
+  (scrollChange)=onScroll($event)>
+  <ng-container *ngFor="let row of scroller.viewRows; trackBy: rowTrackingFn">
+
+    <div class="datatable-body-row datatable-group-header" role="row"
+      *ngIf="table.rowGroup.isRowGroup(row)"
+      [style.height.px]="table.dimensions.rowHeight"
+      [style.width.px]="table.dimensions.columnsTotalWidth">
+        <div class="datatable-body-cell dt-sticky" style="left: 0;" *ngIf="!rowGroupTemplate">
+          {{table.rowGroup.getRowGroupName(row)}} ({{table.rowGroup.getRowGroupSize(row)}})
+        </div>
+        <ng-template *ngIf="rowGroupTemplate && rowGroupTemplate.template"
+          [ngTemplateOutlet]="rowGroupTemplate.template"
+          [ngTemplateOutletContext]="{row: row}">
+        </ng-template>
+    </div>
+
+    <dt-body-row
+      [ngClass]="row.getRowClass()"
+      [table]="table"
+      [row]="row">
+    </dt-body-row>
+
+    <dt-body-row
+      class="datatable-group-row"
+      *ngIf="table.rowGroup.isRowGroupSummary(row)"
+      [table]="table"
+      [row]="table.rowGroup.getRowGroupSummary(row)">
+    </dt-body-row>
+  </ng-container>
+
+  <dt-body-row
+    class="datatable-group-row"
+    *ngIf="table.rowGroup.aggregationEnabled"
+    [table]="table"
+    [row]="table.rowGroup.getRowSummary()">
+  </dt-body-row>
+
+  <div class="datatable-empty-row"
+       *ngIf="!table.rows?.length"
+       [style.width.px]="table.dimensions.columnsTotalWidth">
+    <ng-container *ngIf="loading">{{table.messages.loading}}</ng-container>
+    <ng-container *ngIf="!loading">{{table.messages.empty}}</ng-container>
+  </div>
+
+</app-scroller>

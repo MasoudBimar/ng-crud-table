@@ -1,10 +1,9 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Settings, TreeTable} from '../../lib/ng-tree-table';
+import {TreeTable, Settings, TreeBuilder} from 'ng-mazdik-lib';
 import {TreeDemoService} from './tree-demo.service';
 import {getTreeColumns} from './columns';
 import {Subscription} from 'rxjs';
-import {TreeBuilder} from '../../lib/tree';
 
 @Component({
   selector: 'app-tree-table-demo',
