@@ -1,12 +1,10 @@
-import {Component, ViewEncapsulation, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, ViewChild, AfterViewInit} from '@angular/core';
 import {Router, NavigationEnd} from '@angular/router';
 import {NavMenuComponent} from './nav-menu/nav-menu.component';
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.css', '../../dist/ng-mazdik-lib/styles/tree-icons.css'],
-  encapsulation: ViewEncapsulation.None,
+  templateUrl: 'app.component.html'
 })
 export class AppComponent implements AfterViewInit {
 
@@ -29,6 +27,9 @@ export class AppComponent implements AfterViewInit {
     const url = window.location.href.split('#')[1];
     const node = this.navMenu.tree.getNodeById(url || '/');
     if (node) {
+      if (this.navMenu.tree.nodes && this.navMenu.tree.nodes.length) {
+        this.navMenu.tree.nodes[0].expanded = false;
+      }
       node.ensureVisible();
     }
   }

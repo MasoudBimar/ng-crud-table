@@ -1,22 +1,15 @@
 import {
-  Component, Input, Output, EventEmitter, HostBinding, OnInit, OnDestroy, ViewEncapsulation,
+  Component, Input, Output, EventEmitter, HostBinding, OnInit, OnDestroy,
   ChangeDetectionStrategy, ChangeDetectorRef,
 } from '@angular/core';
-import { DataTable } from '../ng-data-table/base';
+import { DataTable, Row, Column } from '../ng-data-table/base';
 import { Subscription } from 'rxjs';
 import { downloadCSV, Keys } from '../common';
 
 @Component({
   selector: 'dt-toolbar',
   templateUrl: './dt-toolbar.component.html',
-  styleUrls: [
-    './dt-toolbar.component.css',
-    '../styles/input-group.css',
-    '../styles/buttons.css',
-    '../styles/input.css'
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class DtToolbarComponent implements OnInit, OnDestroy {
 
@@ -26,7 +19,6 @@ export class DtToolbarComponent implements OnInit, OnDestroy {
   @Input() exportAction: boolean;
   @Input() columnToggleAction: boolean;
   @Input() clearAllFiltersAction: boolean;
-  @Input() zIndexColumnToggler: number;
 
   @Output() create: EventEmitter<any> = new EventEmitter();
 
@@ -60,7 +52,17 @@ export class DtToolbarComponent implements OnInit, OnDestroy {
   downloadCsv() {
     const keys = this.table.columns.map(col => col.name);
     const titles = this.table.columns.map(col => col.title);
-    downloadCSV({rows: this.table.rows, keys, titles});
+
+    const resultRows = [];
+    this.table.rows.forEach((x: Row) => {
+      const row = x.clone();
+      this.table.columns.forEach((col: Column) => {
+        row[col.name] = col.getValueView(row);
+      });
+      resultRows.push(row);
+    });
+
+    downloadCSV({rows: resultRows, keys, titles});
   }
 
   createActionClick() {

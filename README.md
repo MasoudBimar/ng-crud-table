@@ -1,14 +1,23 @@
 # Angular UI component library
 
-### Installation
-
 ```
 npm i ng-mazdik-lib --save
 ```
 
-Feature-rich data table component for Angular with CRUD operations. (<a target="_blank" href="https://mazdik.github.io/ng-mazdik/">Demo</a>)  
+### Styles
+Add global styles in angular.json
+```json
+"styles": [
+  "src/styles.css",
+  "node_modules/ng-mazdik-lib/styles/bundled.css"
+],
+```
+if need to support IE 11 add: "node_modules/ng-mazdik-lib/styles/ie.css"
+
+<a target="_blank" href="https://mazdik.github.io/ng-mazdik/">Demos</a>  
 
 ### Sample crud-table
+Feature-rich data table component for Angular with CRUD operations.
 ```typescript
 import {Component}  from '@angular/core';
 import {HttpClient} from '@angular/common/http';
@@ -289,7 +298,6 @@ export interface PageMetadata {
 | initLoad         | boolean    | true    |             |
 | globalFilter     | boolean    | false   |             |
 | singleRowView    | boolean    | true    |             |
-| zIndexModal      | number     | null    |             |
 | exportAction     | boolean    | false   | csv         |
 | columnToggleAction | boolean  | false   |             |
 | clearAllFiltersAction | boolean | false |             |
@@ -297,7 +305,7 @@ export interface PageMetadata {
 
 
 ```typescript
-export class SelectItem {
+export interface SelectItem {
   id: any;
   name: string;
   parentId?: any;

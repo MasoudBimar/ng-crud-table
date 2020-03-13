@@ -1,5 +1,5 @@
 import {
-  Component, ElementRef, ViewChild, Input, Output, OnInit, AfterViewChecked, HostListener, HostBinding, EventEmitter, ViewEncapsulation
+  Component, ElementRef, ViewChild, Input, Output, AfterViewChecked, HostListener, EventEmitter
 } from '@angular/core';
 import {ResizableEvent} from '../resizable/types';
 import {maxZIndex, findAncestor} from '../common/utils';
@@ -7,17 +7,10 @@ import {maxZIndex, findAncestor} from '../common/utils';
 @Component({
   selector: 'app-modal',
   templateUrl: 'modal.component.html',
-  styleUrls: ['modal.component.css', '../styles/resizable.css'],
-  encapsulation: ViewEncapsulation.None,
 })
-export class ModalComponent implements OnInit, AfterViewChecked {
+export class ModalComponent implements AfterViewChecked {
 
-  @Input() modalTitle: string;
-  @Input() width: any;
-  @Input() zIndex: number;
-  @Input() minWidth: number = 260;
-  @Input() minHeight: number = 200;
-  @Input() scrollTop: boolean = true;
+  @Input() scrollTopEnable: boolean = true;
   @Input() maximizable: boolean;
   @Input() backdrop: boolean = true;
 
@@ -27,11 +20,9 @@ export class ModalComponent implements OnInit, AfterViewChecked {
   @ViewChild('modalBody', {static: false}) modalBody: ElementRef;
   @ViewChild('modalHeader', {static: false}) modalHeader: ElementRef;
   @ViewChild('modalFooter', {static: false}) modalFooter: ElementRef;
-
-  @HostBinding('class.app-modal') cssClass = true;
+  @ViewChild('closeIcon', {static: false}) closeIcon: ElementRef;
 
   visible: boolean;
-  contentzIndex: number;
   executePostDisplayActions: boolean;
   maximized: boolean;
   preMaximizeRootWidth: number;
@@ -42,14 +33,6 @@ export class ModalComponent implements OnInit, AfterViewChecked {
   dragEventTarget: MouseEvent | TouchEvent;
 
   constructor(private element: ElementRef) {}
-
-  ngOnInit() {
-    if (!this.zIndex) {
-      this.zIndex = this.getMaxModalIndex();
-      this.zIndex = (this.zIndex || 1000) + 1;
-    }
-    this.contentzIndex = this.zIndex + 1;
-  }
 
   ngAfterViewChecked() {
     if (this.executePostDisplayActions) {
@@ -76,7 +59,7 @@ export class ModalComponent implements OnInit, AfterViewChecked {
     this.visible = true;
     setTimeout(() => {
       this.modalRoot.nativeElement.focus();
-      if (this.scrollTop) {
+      if (this.scrollTopEnable) {
         this.modalBody.nativeElement.scrollTop = 0;
       }
     }, 1);
@@ -109,6 +92,9 @@ export class ModalComponent implements OnInit, AfterViewChecked {
   }
 
   initDrag(event: MouseEvent | TouchEvent) {
+    if (event.target === this.closeIcon.nativeElement) {
+      return;
+    }
     if (!this.maximized) {
       this.dragEventTarget = event;
     }
@@ -132,14 +118,10 @@ export class ModalComponent implements OnInit, AfterViewChecked {
   }
 
   focusLastModal() {
-    const modal = findAncestor(this.element.nativeElement.parentElement, 'app-modal');
-    if (modal && modal.children[1]) {
-      modal.children[1].focus();
+    const modal = findAncestor(this.element.nativeElement.parentElement, '.ui-modal');
+    if (modal) {
+      modal.focus();
     }
-  }
-
-  onCloseIcon(event: Event) {
-    event.stopPropagation();
   }
 
   toggleMaximize(event) {
@@ -181,27 +163,13 @@ export class ModalComponent implements OnInit, AfterViewChecked {
 
   moveOnTop() {
     if (!this.backdrop) {
-      const zIndex = this.getMaxModalIndex();
-      if (this.contentzIndex <= zIndex) {
-        this.contentzIndex = zIndex + 1;
+      const maxModalIndex = this.getMaxModalIndex();
+      let zIndex = parseFloat(window.getComputedStyle(this.modalRoot.nativeElement).zIndex) || 0;
+      if (zIndex <= maxModalIndex) {
+        zIndex = maxModalIndex + 1;
+        this.modalRoot.nativeElement.style.zIndex = zIndex.toString();
       }
     }
-  }
-
-  get dialogStyles() {
-    return {
-      display: this.visible ? 'block' : 'none',
-      'z-index': this.contentzIndex,
-      'width.px': this.width,
-      'min-width.px': this.minWidth,
-    };
-  }
-
-  get overlayStyles() {
-    return {
-      display: (this.visible && this.backdrop) ? 'block' : 'none',
-      'z-index': this.zIndex,
-    };
   }
 
 }

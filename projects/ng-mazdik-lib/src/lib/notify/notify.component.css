@@ -5,23 +5,23 @@
 }
 
 .dt-notify-container.dt-n-top-right {
-    right: 10px;
-    top: 10px;
+    right: .625rem;
+    top: .625rem;
 }
 
 .dt-notify-container.dt-n-top-left {
-    top: 10px;
-    left: 10px;
+    top: .625rem;
+    left: .625rem;
 }
 
 .dt-notify-container.dt-n-bottom-right {
-    bottom: 10px;
-    right: 10px;
+    bottom: .625rem;
+    right: .625rem;
 }
 
 .dt-notify-container.dt-n-bottom-left {
-    bottom: 10px;
-    left: 10px;
+    bottom: .625rem;
+    left: .625rem;
 }
 
 .dt-notify-container.dt-n-center {
@@ -32,11 +32,11 @@
 
 .dt-notify-container .dt-n-close {
     position: absolute;
-    top: 5px;
-    right: 10px;
-    width: 15px;
-    height: 15px;
-    padding: 2px;
+    top: .3125rem;
+    right: .625rem;
+    width: 1rem;
+    height: 1rem;
+    padding: .125rem;
     cursor: pointer;
 }
 
@@ -46,35 +46,28 @@
     position: absolute;
     width: 100%;
     top: 50%;
-    height: 2px;
-    background: #fff;
+    height: .125rem;
+    background: white;
 }
 
 .dt-notify-container .dt-n-close:before {
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
     transform: rotate(45deg);
 }
 
 .dt-notify-container .dt-n-close:after {
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
 
 .dt-notify-item {
     display: block;
-    width: 20em;
-    padding: 15px;
+    width: 20rem;
+    padding: 1rem;
     position: relative;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    border-radius: 5px;
-    margin-bottom: 15px;
+    border-radius: .3125rem;
+    margin-bottom: 1rem;
     opacity: 0.75;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
     filter: alpha(opacity=75);
+    color: white;
 }
 
 .dt-notify-item:hover {
@@ -86,26 +79,21 @@
 }
 
 .dt-notify-info {
-    background: #3498db;
-    color: #fff;
+    background: var(--dt-color-primary-light);
 }
 
 .dt-notify-success {
-    background: #2ecc71;
-    color: #fff;
+    background: var(--dt-color-success-lighter);
 }
 
 .dt-notify-error {
-    background: #e74c3c;
-    color: #fff;
+    background: var(--dt-color-danger-light);
 }
 
 .dt-notify-warning {
-    background: #f39c12;
-    color: #fff;
+    background: var(--dt-color-warning-light);
 }
 
 .dt-notify-notify {
-    background: #333;
-    color: #fff;
+    background: var(--dt-color-secondary-darker);
 }

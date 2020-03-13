@@ -1,18 +1,11 @@
 import {
-  Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy, ViewChild, AfterViewInit
+  Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild, AfterViewInit
 } from '@angular/core';
 import {SelectItem} from '../common';
 
 @Component({
   selector: 'app-select-list',
   templateUrl: 'select-list.component.html',
-  styleUrls: [
-    '../styles/checkbox.css',
-    '../styles/checkbox.css',
-    '../styles/list-menu.css',
-    '../styles/input.css',
-  ],
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectListComponent implements AfterViewInit {
@@ -23,6 +16,8 @@ export class SelectListComponent implements AfterViewInit {
   @Input() cancelMessage: string = 'Cancel';
   @Input() clearMessage: string = 'Clear';
   @Input() searchMessage: string = 'Search...';
+  @Input() enableSelectAll: boolean = true;
+  @Input() enableFilterInput: boolean = true;
 
   @Input('selected')
   get model(): any[] { return this._model; }
@@ -49,6 +44,7 @@ export class SelectListComponent implements AfterViewInit {
   @ViewChild('filterInput', {static: false}) filterInput: any;
   searchFilterText: string = null;
   private selectedOptions: any[] = [];
+  private filteredOptions: SelectItem[];
 
   constructor() {}
 
@@ -144,6 +140,22 @@ export class SelectListComponent implements AfterViewInit {
       this.model = this.selectedOptions.slice(0);
       this.selectionChange.emit(this.model);
     }
+  }
+
+  onInputFilter(event: InputEvent) {
+    this.searchFilterText = (event.target as HTMLInputElement).value;
+    this.filteredOptions = this.filterOptionsByName(this.searchFilterText);
+  }
+
+  get viewOptions(): SelectItem[] {
+    return (this.searchFilterText) ? this.filteredOptions : this.options;
+  }
+
+  filterOptionsByName(value: string): SelectItem[] {
+    if (!value || !this.options) {
+      return this.options;
+    }
+    return this.options.filter(val => val.name.toLowerCase().indexOf(value.toLowerCase()) > -1);
   }
 
 }

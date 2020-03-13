@@ -43,6 +43,7 @@ export * from './lib/inline-edit/inline-edit-module';
 
 // modal
 export * from './lib/modal/modal-module';
+export * from './lib/modal/modal.component';
 
 // modal-edit-form
 export * from './lib/modal-edit-form/modal-edit-form-module';
@@ -83,11 +84,6 @@ export * from './lib/notify/notify.service';
 // pagination
 export * from './lib/pagination/pagination-module';
 export * from './lib/pagination/pagination.component';
-
-// pipes
-export * from './lib/pipes/filter.pipe';
-export * from './lib/pipes/order.pipe';
-export * from './lib/pipes/paginate.pipe';
 
 // resizable
 export * from './lib/resizable/resizable-module';

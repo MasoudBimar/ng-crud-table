@@ -6,7 +6,8 @@ import {getColumnsPlayers} from './columns';
 @Component({
   selector: 'app-nested-modals-demo',
   template: `
-    <app-modal #modal [modalTitle]="'Data-table'" [maximizable]="true" [width]="1100">
+    <app-modal class="nested-modals-demo" #modal [maximizable]="true">
+      <ng-container class="app-modal-header">Data-table</ng-container>
       <ng-container class="app-modal-body">
         <app-crud-table [dataManager]="dataManager"></app-crud-table>
       </ng-container>
@@ -21,8 +22,7 @@ export class NestedModalsDemoComponent {
 
   settings: CdtSettings = new CdtSettings({
     crud: true,
-    bodyHeight: 380,
-    zIndexModal: 1110
+    bodyHeight: 380
   });
 
   @ViewChild('modal', {static: false}) modal: any;

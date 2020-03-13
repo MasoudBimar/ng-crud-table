@@ -22,6 +22,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  height: 100%;
 }
 
 .fixed-header .datatable-header-row {
@@ -74,13 +75,13 @@
 
 /******/
 .datatable-header-cell {
-  background-color: #5b9bd5;
+  background-color: var(--dt-color-primary);
   color: white;
   user-select: none;
 }
 
 .datatable-header-cell:hover {
-  background-color: #337ab7;
+  background-color: var(--dt-color-primary-darker);
 }
 
 .datatable-header-cell:hover .column-menu-icon {
@@ -89,22 +90,22 @@
 
 .datatable-body-cell:first-child,
 .datatable-header-cell:first-child {
-  border-left: 1px solid #c6c6c6;
+  border-left: 1px solid var(--dt-color-secondary-light);
 }
 
 .datatable-body-cell,
 .datatable-header-cell {
-  padding: 4px 3px;
-  border-right: 1px solid #c6c6c6;
-  border-bottom: 1px solid #c6c6c6;
+  padding: .25rem .1875rem;
+  border-right: 1px solid var(--dt-color-secondary-light);
+  border-bottom: 1px solid var(--dt-color-secondary-light);
 }
 
 .datatable-body-cell:focus {
-  box-shadow:0px 0px 0px 2px #5b9bd5 inset;
+  box-shadow: 0 0 0 .125rem var(--dt-color-primary) inset;
 }
 
 .dt-dropdown + .datatable-body {
-  border-top: 1px solid #c6c6c6;
+  border-top: 1px solid var(--dt-color-secondary-light);
 }
 
 .dt-sort-header {
@@ -114,8 +115,8 @@
 .column-menu-icon {
   position: absolute;
   top: 50%;
-  right: 10px; /* - resize-handle */
-  margin-top: -6px; /* (height + padding)/2 */
+  right: .625rem; /* - resize-handle */
+  margin-top: -.375rem; /* (height + padding)/2 */
   text-align: right;
   visibility: hidden;
   cursor: pointer;
@@ -132,62 +133,62 @@
 
 .cell-error input:focus,
 .cell-error select:focus {
-  border: 1px solid red;
+  border: 1px solid var(--dt-color-danger);
 }
 
 .cell-error {
-  box-shadow:0px 0px 0px 1px red inset;
+  box-shadow: 0 0 0 .0625rem var(--dt-color-danger) inset;
 }
 
 .row-selected {
-  background-color: #ecf3ff;
+  background-color: var(--dt-color-primary-lightest);
   color: black;
 }
 
 .row-selected .dt-sticky {
-  background-color: #ecf3ff;
+  background-color: var(--dt-color-primary-lightest);
   color: black;
 }
 
 .datatable-empty-row {
-  padding: 0 0 5px 5px;
+  padding: 0 0 .3125rem .3125rem;
 }
 
 .datatable-group-header {
-  border-right: 1px solid #c6c6c6;
-  border-bottom: 1px solid #c6c6c6;
+  border-right: 1px solid var(--dt-color-secondary-light);
+  border-bottom: 1px solid var(--dt-color-secondary-light);
 }
 
-.datatable-body-row[style*="height: 0"],
-.datatable-body-row[style*="height:0"] {
+.dt-hide {
+  height: 0;
   overflow-y: hidden;
 }
 
 .datatable-group-header .datatable-body-cell {
   border: none;
-  border-left: 1px solid #c6c6c6;
+  border-left: 1px solid var(--dt-color-secondary-light);
 }
 
 .datatable-group-header,
 .datatable-group-header .dt-sticky,
 .datatable-group-row,
 .datatable-group-row .dt-sticky {
-  background: #f5f5f5;
-  color: grey;
+  background: var(--dt-color-secondary-lightest);
+  color: var(--dt-color-secondary-medium);
   font-weight: bold;
 }
 
 .column-resizer-helper {
-  width: 2px;
+  width: .125rem;
   position: absolute;
   z-index: 10;
   display: none;
-  background: green;
+  background: var(--dt-color-success);
   top: 0;
 }
 
 .datatable-unselectable .datatable-header-cell:hover {
-  background-color: #5b9bd5;
+  background-color: var(--dt-color-primary);
 }
 
 .datatable-unselectable .datatable-header-cell:hover .column-menu-icon {
@@ -200,29 +201,31 @@
 
 .cell-changed::before {
   content: '';
-  border: 3px solid;
+  border: .1875rem solid;
   border-color: currentColor currentColor transparent transparent;
   display: block;
   position: absolute;
   top: 0;
   right: 0;
-  color: #5b9bd5;
+  color: var(--dt-color-primary);
 }
 
 .dropdown-filter-menu {
   position: absolute;
   z-index: 2;
   display: none;
-  padding: 5px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  padding: .3125rem;
+  background-color: white;
+  border: 1px solid var(--dt-color-secondary-light);
+  border-radius: .125rem;
+  box-shadow: 0 .375rem .75rem rgba(0, 0, 0, .175);
+  min-width: 12.5rem;
+  max-width: 40rem;
 }
 
 .filter-action {
   margin: 0;
-  padding: 8px 10px;
+  padding: .5rem .625rem;
   background-color: transparent;
   border: none;
   outline:none;

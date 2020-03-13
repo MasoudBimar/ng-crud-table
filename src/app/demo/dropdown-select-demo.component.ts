@@ -4,25 +4,21 @@ import { SelectItem } from 'ng-mazdik-lib';
 @Component({
   selector: 'app-dropdown-select-demo',
   template: `
-  <div class="sl-row">
+  <div class="dropdown-select-demo">
     <app-dropdown-select class="sl-column"
       [value]="selectedOptions1"
       [options]="options"
       [multiple]="true"
-      (valueChange)="onValueChange()">
+      (valueChange)="onValueChange1($event)">
     </app-dropdown-select>
     <app-dropdown-select class="sl-column"
       [value]="selectedOptions2"
       [options]="options"
       [multiple]="false"
-      (valueChange)="onValueChange()">
+      (valueChange)="onValueChange2($event)">
     </app-dropdown-select>
   </div>
   `,
-  styles: [`
-    .sl-row {display: flex;}
-    .sl-column {margin-right: 2em; width: 20em;}
-  `],
 })
 export class DropdownSelectDemoComponent {
 
@@ -39,5 +35,11 @@ export class DropdownSelectDemoComponent {
 
   constructor() { }
 
-  onValueChange(): void { }
+  onValueChange1(event): void {
+    this.selectedOptions1 = event;
+  }
+
+  onValueChange2(event): void {
+    this.selectedOptions2 = event;
+  }
 }

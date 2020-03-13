@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-resizable-directive-demo',
@@ -8,23 +8,13 @@ import { Component, ViewEncapsulation } from '@angular/core';
     [south]="true"
     [east]="true"
     [southEast]="true"
-    [minWidth]="200"
-    [minHeight]="200"
-    [maxWidth]="500"
-    [maxHeight]="500"
     (resizing)="onResize($event)">
   </div>
   `,
-  styleUrls: ['../../../dist/ng-mazdik-lib/styles/resizable.css'],
-  styles: [`
-    .dd-box {position: absolute; width: 200px; height: 200px;}
-    .box1 {background-color: #009ccc;}
-  `],
-  encapsulation: ViewEncapsulation.None,
 })
 export class ResizableDirectiveDemoComponent {
 
-  constructor() { }
+  @HostBinding('class.resizable-directive-demo') cssClass = true;
 
   onResize($event) {}
 

@@ -1,45 +1,52 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, HostBinding} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, HostBinding} from '@angular/core';
 import {SelectItem} from '../common';
-import {inputFormattedDate} from '../common/utils';
+import {inputFormattedDate, inputIsDateType, checkStrDate, isBlank} from '../common/utils';
 
 @Component({
   selector: 'app-inline-edit, [inline-edit]',
   templateUrl: 'inline-edit.component.html',
-  styleUrls: ['inline-edit.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class InlineEditComponent {
 
+  @Input() value: string | number | Date;
   @Input() editing: boolean;
   @Input() type = 'text';
   @Input() options: SelectItem[];
-  @Input() viewValue: string | number;
+  @Input() viewValue: string | number | Date;
   @Input() selectPlaceholder: string;
 
-  @Input()
-  get value(): string | number { return this._value; }
-  set value(value: string | number) {
-    this._value = value;
-    this.valueChange.emit(this._value);
-  }
-  private _value: string | number;
-
-  @Output() valueChange: EventEmitter<string | number> = new EventEmitter();
+  @Output() valueChange: EventEmitter<string | number | Date> = new EventEmitter();
   @Output() inputChange: EventEmitter<any> = new EventEmitter();
   @Output() focusChange: EventEmitter<any> = new EventEmitter();
   @Output() blurChange: EventEmitter<any> = new EventEmitter();
 
   @HostBinding('class.dt-inline-editor') cssClass = true;
 
+  get isDateType(): boolean {
+    return inputIsDateType(this.type);
+  }
+
   get inputFormattedValue() {
-    return inputFormattedDate(this.type, this.value);
+    if (this.isDateType) {
+      return inputFormattedDate(this.type, this.value);
+    }
+    return this.value;
   }
 
   constructor() {}
 
   onInput(event: any) {
-    this.value = (this.type === 'number') ? parseFloat(event.target.value) : event.target.value;
+    if (this.type === 'number') {
+      this.value = !isBlank(event.target.value) ? parseFloat(event.target.value) : null;
+    } else if (this.isDateType) {
+      if (checkStrDate(event.target.value)) {
+        this.value = new Date(event.target.value);
+      }
+    } else {
+      this.value = event.target.value;
+    }
+    this.valueChange.emit(this.value);
   }
 
   onInputChange() {

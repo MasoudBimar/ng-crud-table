@@ -1,14 +1,16 @@
+export function toISOStringIgnoreTZ(date: Date): string {
+  return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
+}
+
 export function inputFormattedDate(type: string, value: any) {
   if (value) {
-    if (value instanceof Date) {
-      value = value.toISOString();
-    }
+    const strDate = (value instanceof Date) ? toISOStringIgnoreTZ(value) : value;
     if (type === 'datetime-local') {
-      return value.slice(0, 16);
+      return strDate.slice(0, 16);
     } else if (type === 'date') {
-      return value.slice(0, 10);
+      return strDate.slice(0, 10);
     } else if (type === 'month') {
-      return value.slice(0, 7);
+      return strDate.slice(0, 7);
     }
   }
   return value;
@@ -30,4 +32,15 @@ export function getLastDate(type: LastDateType) {
     dt = new Date(Date.now() + -1 * 3600 * 1000);
   }
   return dt;
+}
+
+export function inputIsDateType(type: string): boolean {
+  return (type === 'date' || type === 'datetime-local' || type === 'month');
+}
+
+export function checkStrDate(value: string): boolean {
+  if (!value || value.substring(0, 3) === '000' || value.substring(0, 2) === '00' || value.substring(0, 1) === '0') {
+    return false;
+  }
+  return true;
 }

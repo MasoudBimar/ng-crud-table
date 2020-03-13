@@ -1,24 +1,14 @@
 import {
-  Component, Input, Output, EventEmitter, ViewChild, ViewEncapsulation, ChangeDetectionStrategy, HostBinding,
+  Component, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy, HostBinding,
   ChangeDetectorRef
 } from '@angular/core';
 import {PageEvent} from '../../lib/pagination/types';
-import {SelectItem} from '../common';
+import {SelectItem, arrayPaginate} from '../common';
 
 @Component({
   selector: 'app-modal-select',
   templateUrl: './modal-select.component.html',
-  styleUrls: [
-    'modal-select.component.css',
-    '../styles/input-group.css',
-    '../styles/clearable-input.css',
-    '../styles/list-menu.css',
-    '../styles/input.css',
-    '../styles/buttons.css',
-    '../styles/icons.css',
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 
 export class ModalSelectComponent {
@@ -47,7 +37,6 @@ export class ModalSelectComponent {
   }
   private _model: any;
 
-  @Input() zIndex: number;
   @Input() filterDelay: number = 300;
   @Input() disabled: boolean;
   @Input() modalTitle: string = 'Search Dialog';
@@ -91,13 +80,16 @@ export class ModalSelectComponent {
   }
 
   getOptions() {
+    let data = [];
     if (this.optionsCopy && this.optionsCopy.length && this.searchFilterText) {
-      const data = this.optionsCopy.filter(x => x.name.toLocaleLowerCase().indexOf(this.searchFilterText.toLocaleLowerCase()) > -1);
-      this.totalItems = data.length;
-      return data;
+      data = this.optionsCopy.filter(x => x.name.toLocaleLowerCase().indexOf(this.searchFilterText.toLocaleLowerCase()) > -1);
+      this.currentPage = 1;
+    } else {
+      data = this.optionsCopy;
     }
-    this.totalItems = this.optionsCopy.length;
-    return this.optionsCopy;
+    this.totalItems = data.length;
+    const result = arrayPaginate(data, this.currentPage, this.itemsPerPage);
+    return result;
   }
 
   onPageChanged(event: PageEvent) {

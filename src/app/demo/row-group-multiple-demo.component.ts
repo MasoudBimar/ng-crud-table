@@ -5,9 +5,7 @@ import {getColumnsPlayers} from './columns';
 
 @Component({
   selector: 'app-row-group-multiple-demo',
-  template: `
-    <app-data-table [table]="table"></app-data-table>
-  `
+  template: `<app-data-table [table]="table"></app-data-table>`
 })
 
 export class RowGroupMultipleDemoComponent implements OnInit {
@@ -20,6 +18,8 @@ export class RowGroupMultipleDemoComponent implements OnInit {
 
   constructor(private http: HttpClient) {
     const columns = getColumnsPlayers();
+    columns.find(x => x.name === 'race').tableHidden = true;
+    columns.find(x => x.name === 'gender').tableHidden = true;
     this.table = new DataTable(columns, this.settings);
     this.table.pager.perPage = 50;
   }

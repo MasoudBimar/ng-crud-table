@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { SelectItem } from 'ng-mazdik-lib/lib/common';
+import { SelectItem } from 'ng-mazdik-lib';
 
 @Component({
   selector: 'app-dual-list-box-demo',
   template: `
-  <app-dual-list-box
+  <app-dual-list-box class="dual-list-box-demo"
     [source]="source"
     [target]="target"
     [sourceTitle]="'Source title'"
@@ -12,7 +12,6 @@ import { SelectItem } from 'ng-mazdik-lib/lib/common';
     (targetChange)="onSelectionChange($event)">
   </app-dual-list-box>
   `,
-  styles: [`app-dual-list-box {min-width: 400px; max-width: 600px}`]
 })
 export class DualListBoxDemoComponent {
 

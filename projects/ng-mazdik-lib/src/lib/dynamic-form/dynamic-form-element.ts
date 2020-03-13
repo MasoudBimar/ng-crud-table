@@ -1,19 +1,21 @@
 import {TemplateRef} from '@angular/core';
-import {ElementType} from './types';
-import {SelectItem} from '../common';
+import {SelectItem, InputType, inputIsDateType} from '../common';
 
 export class DynamicFormElement {
+
   title: string;
   name: string;
   options?: SelectItem[];
   optionsUrl?: string;
-  type?: ElementType;
+  type?: InputType;
   validatorFunc?: (name: string, value: any) => string[];
   dependsElement?: string;
   cellTemplate?: TemplateRef<any>;
   hidden?: boolean;
   keyElement?: string;
   disableOnEdit?: boolean;
+
+  errors: string[] = [];
 
   getOptions(dependsValue?: any): SelectItem[] {
     if (this.options) {
@@ -25,15 +27,18 @@ export class DynamicFormElement {
     }
   }
 
-  validate(value: any): string[] {
+  validate(value: any): void {
     if (this.validatorFunc) {
-      return this.validatorFunc(this.title, value);
+      this.errors = this.validatorFunc(this.title, value);
     }
-    return [];
   }
 
   get isDateType(): boolean {
-    return (this.type === 'date' || this.type === 'datetime-local' || this.type === 'month');
+    return inputIsDateType(this.type);
+  }
+
+  get hasError(): boolean {
+    return (this.errors && this.errors.length > 0);
   }
 
 }

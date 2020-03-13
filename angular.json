@@ -18,13 +18,16 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/nav-menu/nav-menu.component.css",
+              "dist/ng-mazdik-lib/styles/bundled.css",
+              "dist/ng-mazdik-lib/styles/ie.css"
             ],
             "scripts": []
           },
@@ -41,7 +44,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -132,6 +134,11 @@
           "options": {
             "tsConfig": "projects/ng-mazdik-lib/tsconfig.lib.json",
             "project": "projects/ng-mazdik-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-mazdik-lib/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {

@@ -1,5 +1,5 @@
 import {
-  Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef,
+  Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
   HostBinding, ElementRef, OnInit, OnDestroy
 } from '@angular/core';
 import {DropDown} from '../dropdown/drop-down';
@@ -9,15 +9,7 @@ import {Subscription} from 'rxjs';
 @Component({
   selector: 'app-dropdown-select',
   templateUrl: 'dropdown-select.component.html',
-  styleUrls: [
-    'dropdown-select.component.css',
-    '../styles/input-group.css',
-    '../styles/input.css',
-    '../styles/buttons.css',
-    '../styles/icons.css'
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 
 export class DropdownSelectComponent implements OnInit, OnDestroy {
@@ -29,6 +21,9 @@ export class DropdownSelectComponent implements OnInit, OnDestroy {
   @Input() clearMessage: string = 'Clear';
   @Input() placeholder: string = 'Select';
   @Input() searchInputPlaceholder: string = 'Search...';
+  @Input() selectedMessage: string = 'Selected';
+  @Input() enableSelectAll: boolean = true;
+  @Input() enableFilterInput: boolean = true;
 
   @Input()
   get options(): SelectItem[] { return this._options; }
@@ -51,7 +46,7 @@ export class DropdownSelectComponent implements OnInit, OnDestroy {
     this.selectedName = this.getName(this.selectedOptions);
   }
 
-  @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
 
   @HostBinding('class.dt-dropdown-select') cssClass = true;
 
@@ -96,7 +91,7 @@ export class DropdownSelectComponent implements OnInit, OnDestroy {
   getName(items: any) {
     if (items && items.length && this.options && this.options.length) {
       if (this.multiple && items.length > 1) {
-        return items.length + ' items selected';
+        return this.selectedMessage + ': ' + items.length;
       } else {
         const option = this.options.find((x) => {
           return x.id === items[0];
